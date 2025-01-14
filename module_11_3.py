@@ -13,13 +13,23 @@ class MyObject:
 
 
 def introspection_info(obj):
-    return {
+    try:
+        result = {
         'type': obj.__class__.__name__,
-        'attributes': dir(obj),
+        'attributes': [m for m in vars(obj).keys()],
         'methods': [m for m in dir(obj) if 'method' in str(getattr(obj, m))],
         'module': __name__,
         'is_callable': callable(obj)
     }
+    except:
+        result = {
+            'type': obj.__class__.__name__,
+            'attributes': [],
+            'methods': [m for m in dir(obj) if 'method' in str(getattr(obj, m))],
+            'module': __name__,
+            'is_callable': callable(obj)
+        }
+    return result
 
 
 number_info_1 = introspection_info(MyObject())
